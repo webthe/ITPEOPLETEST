@@ -5,14 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 
-var testRouter = require('./routes/test');
-var ipfsTestRouter = require('./routes/ipfstest');
-var upaodDocsRouter = require('./routes/uploadDocs');
-var listDocsRouter = require('./routes/listofuploadeddocs');
-var editDocsRouter = require('./routes/editDoc');
-var downloadRouter = require('./routes/downloadFile');
-var docHistoryRouter = require('./routes/docHistory');
-var setDocPermissionsRouter = require('./routes/setDocPermissions');
+var createTheatreRouter = require('./routes/createTheatre');
+var createMovieRouter = require('./routes/createMovie');
+var lisofMoviesRouter= require('./routes/listofMovies');
+var sellTicketsRouter= require('./routes/sellTickets');
+var canteenRouter= require('./routes/canteenInventory');
+var redeemRouter = require('./routes/reddemVoucher');
 var app = express();
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
@@ -28,23 +26,24 @@ next();
 });
 //body parser middleware
 app.use(bodyParser.json());
-
-
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+//app.use(express.json());
+//app.use(express.urlencoded({ extended: true }));
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/test', testRouter);
-app.use('/ipfstest', ipfsTestRouter);
-app.use('/api/v1/uploadDocs', upaodDocsRouter);
-app.use('/api/v1/listDocs', listDocsRouter);
-app.use('/api/v1/', editDocsRouter);
-app.use('/api/v1/download', downloadRouter);
-app.use('/api/v1/docHistory', docHistoryRouter);
-app.use('/api/v1/setDocPermissions', setDocPermissionsRouter);
+app.use('/api/v1/createTheatre', createTheatreRouter);
+app.use('/api/v1/createMovie', createMovieRouter);
+app.use('/api/v1/lisofMovies', lisofMoviesRouter);
+app.use('/api/v1/sellTickets', sellTicketsRouter);
+app.use('/api/v1/canteen', canteenRouter);
+app.use('/api/v1/redeemVoucher', redeemRouter);
+//app.use('/api/v1/canteenInvertory', canteenInvertoryRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

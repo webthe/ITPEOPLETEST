@@ -73,7 +73,9 @@ let invoke = function(inputArgs) {
         };
 
         // send the transaction proposal to the peers
+        
         return channel.sendTransactionProposal(request);
+        
       })
       .then(results => {
         var proposalResponses = results[0];
@@ -170,7 +172,7 @@ let invoke = function(inputArgs) {
           //   "Failed to send Proposal or receive valid response. Response null or status is not 200. exiting..."
           // );
           // throw new Error(
-          //   "Failed to send Proposal or receive valid response. Response null or status is not 200. exiting..."
+          //   "Failed to sewnd Proposal or receive valid response. Response null or status is not 200. exiting..."
           // );
           
         }
@@ -192,7 +194,7 @@ let invoke = function(inputArgs) {
 
         if (results && results[1] && results[1].event_status === "VALID") {
           console.log(
-            "Successfully committed the change to the ledger by the peer"
+            "Successfully committed the change to the ledger by the peer "+results[1].event_status
           );
           //End Response
         } else {

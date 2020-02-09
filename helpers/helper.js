@@ -1,21 +1,23 @@
 
-const md5File = require('md5-file')
-function mdHash (filePath) {
-  return new Promise((resolve, reject)=>{
-    md5File(filePath, (err, hash) => {
-      if (err){
-            const error = new Error('Invalid File')
-            error.httpStatusCode = 500
-            return next(error)        
-      } else {
-        return resolve(hash);
-      }
-    })
-  });
+const query = require("../query");
+const orgName = "movies";
+const fs = require("fs");
+let cc_config = JSON.parse(fs.readFileSync('connection.json', 'utf-8'));
+
+let getResults = async (fcn, args)=>{
+  return await query.querypo(
+      JSON.stringify({
+        fcn: fcn,
+        args: args,
+        //args: [theatreID],
+        channelName: cc_config[orgName].channels.channel1,
+        orderergrpc: cc_config["orderer"].grpc,
+        peergrpc: cc_config[orgName].grpc,
+        hfckeystore: cc_config[orgName].hfckeyStore,
+        chaincodeID: cc_config[orgName].chaincodeID.chone_test
+      })
+    );
 }
-var ipfsClient = require('ipfs-http-client');
-const ipfs = new ipfsClient({host:'127.0.0.1', port:'5001', protocol: 'http'});
 module.exports = {
-  mdHash : mdHash,
-  ipfs: ipfs
+  getResults
 };
